@@ -1,0 +1,3 @@
+# ninja log v5
+0	27405	1719133114861564188	/root/autodl-tmp/code/torchops/my_extension/build/temp.linux-x86_64-cpython-310/my_extension.o	87b96a52658dc02d
+21	60155	1719133220492363805	/root/autodl-tmp/code/torchops/my_extension/build/temp.linux-x86_64-cpython-310/my_extension_kernel.o	a322314d506040f9
