@@ -3,22 +3,12 @@ import numpy as np
 from torch import Tensor
 import typing
 
-__all__ = ["mymuladd", "myadd_out", "mymul", "argmax", "layernorm_welford", "layernorm"]
-
-
-def mymuladd(a: Tensor, b: Tensor, c: float) -> Tensor:
-    """Performs a * b + c in an efficient fused kernel"""
-    return torch.ops.cuda_ext.mymuladd.default(a, b, c)
+__all__ = ["mymul", "argmax", "layernorm_welford", "layernorm"]
 
 
 def mymul(a: Tensor, b: Tensor) -> Tensor:
     """Performs a * b + c in an efficient fused kernel"""
     return torch.ops.cuda_ext.mymul.default(a, b)
-
-
-def myadd_out(a: Tensor, b: Tensor, out: Tensor) -> None:
-    """Writes a + b into out"""
-    torch.ops.cuda_ext.myadd_out.default(a, b, out)
 
 
 def argmax(

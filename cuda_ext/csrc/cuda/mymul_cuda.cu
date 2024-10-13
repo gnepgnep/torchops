@@ -29,7 +29,7 @@ at::Tensor mymul_cuda(const at::Tensor& a, const at::Tensor& b) {
 }
 
 
-// Registers CUDA implementations for mymuladd, mymul, myadd_out
+// Registers CUDA implementations for mymul
 TORCH_LIBRARY_IMPL(cuda_ext, CUDA, m) {
   m.impl("mymul", &mymul_cuda);
 }

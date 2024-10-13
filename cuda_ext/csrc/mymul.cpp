@@ -30,7 +30,7 @@ TORCH_LIBRARY_FRAGMENT(cuda_ext, m) {
   m.def("mymul(Tensor a, Tensor b) -> Tensor");
 }
 
-// Registers CUDA implementations for mymuladd, mymul, myadd_out
+// Registers CUDA implementations for mymul
 TORCH_LIBRARY_IMPL(cuda_ext, CPU, m) {
   m.impl("mymul", &mymul_cpu);
 }
