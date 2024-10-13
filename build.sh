@@ -1,5 +1,5 @@
 #!/bin/bash
 
 rm -rf build/ dist/ *.egg-info
-rm -rf extension_cpp/_C.*.so
+rm -rf cuda_ext/_C.*.so
 python setup.py build_ext --inplace

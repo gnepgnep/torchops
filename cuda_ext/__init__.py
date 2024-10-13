@@ -1,7 +1,7 @@
 import torch
 import os
 from ._C import add
-from .ops import mymul, argmax
+from .ops import *
 
 lib_dir = os.path.dirname(os.path.realpath(__file__))
 so_name = None
@@ -29,5 +29,7 @@ except (ImportError, OSError) as e:
 __all__ = [
     "mymul",
     "argmax",
-    "add"
+    "add",
+    "layernorm_welford",
+    "layernorm"
 ]

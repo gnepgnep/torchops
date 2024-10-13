@@ -1,8 +1,9 @@
 import torch
+import numpy as np
 from torch import Tensor
 import typing
 
-__all__ = ["mymuladd", "myadd_out", "mymul", "arg_max"]
+__all__ = ["mymuladd", "myadd_out", "mymul", "argmax", "layernorm_welford", "layernorm"]
 
 
 def mymuladd(a: Tensor, b: Tensor, c: float) -> Tensor:
@@ -55,3 +56,40 @@ def argmax(
     return index_cuda
 
 
+
+def layernorm_welford(
+        matrix: typing.Union[torch.cuda.FloatTensor, torch.cuda.HalfTensor]
+        ) -> typing.Union[torch.cuda.FloatTensor, torch.cuda.HalfTensor]:
+    
+    assert matrix.dtype in [torch.float32, torch.float16], "only support float32 and float16"
+    assert isinstance(matrix, torch.Tensor) and matrix.is_cuda, "only support torch.Tensor, gpu"
+    assert len(matrix.shape) >= 2, "matrix.shape should be >= 2"
+
+    shape = [i for i in matrix.shape]
+
+    M, N = np.prod(shape[0:-1], dtype=np.int32), shape[-1]
+
+    result_cuda = torch.zeros(shape, dtype = matrix.dtype, device=matrix.device)
+
+    torch.ops.cuda_ext.layernorm_welford(matrix, result_cuda, M, N)
+
+    return result_cuda
+
+
+def layernorm(
+        matrix: typing.Union[torch.cuda.FloatTensor, torch.cuda.HalfTensor]
+        ) -> typing.Union[torch.cuda.FloatTensor, torch.cuda.HalfTensor]:
+    
+    assert matrix.dtype in [torch.float32, torch.float16], "only support float32 and float16"
+    assert isinstance(matrix, torch.Tensor) and matrix.is_cuda, "only support torch.Tensor, gpu"
+    assert len(matrix.shape) >= 2, "matrix.shape should be >= 2"
+
+    shape = [i for i in matrix.shape]
+
+    M, N = np.prod(shape[0:-1], dtype=np.int32), shape[-1]
+
+    result_cuda = torch.zeros(shape, dtype = matrix.dtype, device=matrix.device)
+
+    torch.ops.cuda_ext.layernorm(matrix, result_cuda, M, N)
+
+    return result_cuda
